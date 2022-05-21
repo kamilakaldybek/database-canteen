@@ -1,5 +1,5 @@
 -- SELECT STATEMENT QUARIES
--- Самые популярные блюда кафе 'Villa Dei Fiori' в апреле и сколько раз его заказали
+-- РЎР°РјС‹Рµ РїРѕРїСѓР»СЏСЂРЅС‹Рµ Р±Р»СЋРґР° РєР°С„Рµ 'Villa Dei Fiori' РІ Р°РїСЂРµР»Рµ Рё СЃРєРѕР»СЊРєРѕ СЂР°Р· РµРіРѕ Р·Р°РєР°Р·Р°Р»Рё
 SELECT TOP 1 WITH TIES d.name, d.Type, COUNT(dish_id) AS DishCount
 FROM Dish d
 
@@ -14,7 +14,7 @@ GROUP BY d.name, d.Type
 ORDER BY COUNT(dish_id) desc;
 
 
--- Средняя выручка в день каждого кафе и их количество клиентов 
+-- РЎСЂРµРґРЅСЏСЏ РІС‹СЂСѓС‡РєР° РІ РґРµРЅСЊ РєР°Р¶РґРѕРіРѕ РєР°С„Рµ Рё РёС… РєРѕР»РёС‡РµСЃС‚РІРѕ РєР»РёРµРЅС‚РѕРІ 
 SELECT c.name, SUM(oc.Total_price)/COUNT(DISTINCT DATEPART(month,oc.time)) as AVGPrice, COUNT(oc.Client_ID) ClientCount
 FROM Canteen c
 
@@ -25,7 +25,7 @@ GROUP BY c.name
 ORDER BY AVGPrice desc;
 
 
--- Клиент который сделал больше 3 заказа
+-- РљР»РёРµРЅС‚ РєРѕС‚РѕСЂС‹Р№ СЃРґРµР»Р°Р» Р±РѕР»СЊС€Рµ 3 Р·Р°РєР°Р·Р°
 SELECT cl.First_name, cl.Last_name, COUNT(oc.ID) FROM Client cl 
 
 JOIN OrderofClient oc ON cl.ID=oc.Client_ID
@@ -34,7 +34,7 @@ GROUP BY cl.First_name, cl.Last_name
 HAVING COUNT(oc.ID)>3;
 
 
--- Наибольшая выручка официанта из всех ресторанов, наибольшая выручка официанта из кафе 'Shavlego' и разница выручек 
+-- РќР°РёР±РѕР»СЊС€Р°СЏ РІС‹СЂСѓС‡РєР° РѕС„РёС†РёР°РЅС‚Р° РёР· РІСЃРµС… СЂРµСЃС‚РѕСЂР°РЅРѕРІ, РЅР°РёР±РѕР»СЊС€Р°СЏ РІС‹СЂСѓС‡РєР° РѕС„РёС†РёР°РЅС‚Р° РёР· РєР°С„Рµ 'Shavlego' Рё СЂР°Р·РЅРёС†Р° РІС‹СЂСѓС‡РµРє 
 SELECT MAX(allcafe.total) maximum,
 
 (SELECT MAX(shavlego.total) maxShavlego
@@ -70,23 +70,23 @@ SELECT MAX(allcafe.total) maximum,
 
 
 
---4. Количество первого блюда, второго, закусок, десертов
--- исскуственная таблица где находятся только блюда категории 'First Course'
+--4. РљРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРІРѕРіРѕ Р±Р»СЋРґР°, РІС‚РѕСЂРѕРіРѕ, Р·Р°РєСѓСЃРѕРє, РґРµСЃРµСЂС‚РѕРІ
+-- РёСЃСЃРєСѓСЃС‚РІРµРЅРЅР°СЏ С‚Р°Р±Р»РёС†Р° РіРґРµ РЅР°С…РѕРґСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ Р±Р»СЋРґР° РєР°С‚РµРіРѕСЂРёРё 'First Course'
 CREATE VIEW first_course_dish As
 SELECT Type,Name FROM Dish
 WHERE Type='First Course';
 
--- исскуственная таблица где находятся только блюда категории 'Second Course'
+-- РёСЃСЃРєСѓСЃС‚РІРµРЅРЅР°СЏ С‚Р°Р±Р»РёС†Р° РіРґРµ РЅР°С…РѕРґСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ Р±Р»СЋРґР° РєР°С‚РµРіРѕСЂРёРё 'Second Course'
 CREATE VIEW second_course_dish As
 SELECT Type,Name FROM Dish
 WHERE Type='Second Course';
 
--- исскуственная таблица где находятся только блюда категории 'Dessert'
+-- РёСЃСЃРєСѓСЃС‚РІРµРЅРЅР°СЏ С‚Р°Р±Р»РёС†Р° РіРґРµ РЅР°С…РѕРґСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ Р±Р»СЋРґР° РєР°С‚РµРіРѕСЂРёРё 'Dessert'
 CREATE VIEW dessert_dish As
 SELECT Type,Name FROM Dish
 WHERE Type='Dessert';
 
--- исскуственная таблица где находятся только блюда категории 'Appetizer'
+-- РёСЃСЃРєСѓСЃС‚РІРµРЅРЅР°СЏ С‚Р°Р±Р»РёС†Р° РіРґРµ РЅР°С…РѕРґСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ Р±Р»СЋРґР° РєР°С‚РµРіРѕСЂРёРё 'Appetizer'
 CREATE VIEW appetizer_dish As
 SELECT Type,Name FROM Dish
 WHERE Type='Appetizer'
@@ -100,14 +100,14 @@ FULL JOIN dessert_dish D ON AP.Type=D.Type
 SELECT * FROM number_of_dishes
 
 -- DELETE QUERY
---Удаление Блюда в названии которых есть слово 'Salad'
+--РЈРґР°Р»РµРЅРёРµ Р‘Р»СЋРґР° РІ РЅР°Р·РІР°РЅРёРё РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ СЃР»РѕРІРѕ 'Salad'
 
 DELETE FROM Dish
 WHERE Name LIKE '%Salad%';
 
 
 --UPDATE QUERY
---Замена фамилии с инициалами
+--Р—Р°РјРµРЅР° С„Р°РјРёР»РёРё СЃ РёРЅРёС†РёР°Р»Р°РјРё
 
 UPDATE Client SET 
 Last_name= SUBSTRING(Last_name,1,1);
